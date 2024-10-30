@@ -1,5 +1,6 @@
  package com.ordresot.playlistmaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -17,19 +18,19 @@ class MainActivity : AppCompatActivity() {
         val buttonLibrary = findViewById<Button>(R.id.button_library)
         val buttonSettings = findViewById<Button>(R.id.button_settings)
 
-        val buttonSearchClickListener: View.OnClickListener = object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                Toast.makeText(this@MainActivity, "Ищу композицию...", Toast.LENGTH_SHORT).show()
-            }
+        buttonSearch.setOnClickListener{
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
         }
-        buttonSearch.setOnClickListener(buttonSearchClickListener)
 
         buttonLibrary.setOnClickListener{
-            Toast.makeText(this@MainActivity, "Открываю медиатеку", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LibraryActivity::class.java)
+            startActivity(intent)
         }
 
         buttonSettings.setOnClickListener{
-            Toast.makeText(this@MainActivity, "Открываю настройки", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 }
