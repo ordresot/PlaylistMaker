@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_settings_color"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/activity_settings_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/activity_settings_name"
+        app:titleTextAppearance="@style/ActivitySettingsToolbarAppearance"
+        app:navigationIcon="@drawable/ic_arrow_back"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        style="@style/SettingsElementStyle"
+        android:text="@string/dark_theme_text"
+        app:trackTint="@color/track_selector"
+        app:thumbTint="@color/thumb_selector"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/SettingsElementStyle"
+        android:drawableEnd="@drawable/ic_share"
+        android:text="@string/share_text"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/SettingsElementStyle"
+        android:drawableEnd="@drawable/ic_support"
+        android:text="@string/support_text"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/SettingsElementStyle"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:text="@string/user_agreement_text"/>
+</LinearLayout>
