@@ -17,23 +17,51 @@
         app:navigationIcon="@drawable/ic_arrow_back"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        style="@style/SettingsElementStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/regular_text_size"
+        android:textColor="@color/activity_settings_text_color"
+        android:paddingVertical="@dimen/bold_vertical_indent"
+        android:paddingHorizontal="@dimen/regular_horizontal_indent"
+
         android:text="@string/dark_theme_text"
         app:trackTint="@color/track_selector"
         app:thumbTint="@color/thumb_selector"/>
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/SettingsElementStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/regular_text_size"
+        android:textColor="@color/activity_settings_text_color"
+        android:paddingVertical="@dimen/bold_vertical_indent"
+        android:paddingHorizontal="@dimen/regular_horizontal_indent"
+
         android:drawableEnd="@drawable/ic_share"
         android:text="@string/share_text"/>
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/SettingsElementStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/regular_text_size"
+        android:textColor="@color/activity_settings_text_color"
+        android:paddingVertical="@dimen/bold_vertical_indent"
+        android:paddingHorizontal="@dimen/regular_horizontal_indent"
+
         android:drawableEnd="@drawable/ic_support"
         android:text="@string/support_text"/>
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/SettingsElementStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/regular_text_size"
+        android:textColor="@color/activity_settings_text_color"
+        android:paddingVertical="@dimen/bold_vertical_indent"
+        android:paddingHorizontal="@dimen/regular_horizontal_indent"
+
         android:drawableEnd="@drawable/ic_arrow_right"
         android:text="@string/user_agreement_text"/>
 </LinearLayout>
