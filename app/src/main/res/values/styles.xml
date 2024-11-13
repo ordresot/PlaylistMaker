@@ -33,6 +33,7 @@
         <item name="cornerRadius">16dp</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">8dp</item>
+        <item name="elevation">0dp</item>
         <item name="iconTint">@color/activity_main_text_color</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
     </style>
