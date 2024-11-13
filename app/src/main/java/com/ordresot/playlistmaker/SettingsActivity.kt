@@ -12,18 +12,24 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textview.MaterialTextView
 
 class SettingsActivity : AppCompatActivity() {
+    private var toolbar: MaterialToolbar? = null
+    private var shareElement: MaterialTextView? = null
+    private var supportElement: MaterialTextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
 
-        val toolbar = findViewById<MaterialToolbar>(R.id.activity_settings_toolbar)
-        toolbar.setNavigationOnClickListener{
+        toolbar = findViewById(R.id.activity_settings_toolbar)
+        shareElement = findViewById(R.id.shareElement)
+        supportElement = findViewById(R.id.supportElement)
+
+        toolbar!!.setNavigationOnClickListener{
             finish()
         }
 
-        val shareElement = findViewById<MaterialTextView>(R.id.shareElement)
-        shareElement.setOnClickListener {
+        shareElement!!.setOnClickListener {
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.link_to_android_developer_course))
@@ -32,8 +38,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        val supportElement = findViewById<MaterialTextView>(R.id.supportElement)
-        supportElement.setOnClickListener{
+        supportElement!!.setOnClickListener{
             val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.my_email)))
