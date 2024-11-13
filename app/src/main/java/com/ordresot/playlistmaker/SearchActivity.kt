@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.appbar.MaterialToolbar
 
 class SearchActivity : AppCompatActivity() {
 
@@ -28,6 +29,11 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
+
+        val toolbar = findViewById<MaterialToolbar>(R.id.activity_search_toolbar)
+        toolbar.setNavigationOnClickListener{
+            finish()
+        }
 
         val searchField = findViewById<EditText>(R.id.search_field)
         val clearButton = findViewById<ImageView>(R.id.clear_button)
