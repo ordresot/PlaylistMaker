@@ -4,5 +4,8 @@
     <dimen name="regular_text_size">16sp</dimen>
     <dimen name="regular_horizontal_indent">16dp</dimen>
     <dimen name="regular_vertical_indent">10dp</dimen>
+    <dimen name="small_vertical_indent">8dp</dimen>
+    <dimen name="small_horizontal_indent">12dp</dimen>
     <dimen name="bold_vertical_indent">20dp</dimen>
+    <dimen name="activity_search_icon_regular_dimen">14dp</dimen>
 </resources>

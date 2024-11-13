@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_settings_color"
+    android:background="@color/activity_settings_container_color"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
