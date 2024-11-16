@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_settings_color"
+    android:background="@color/activity_settings_container_color"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/activity_settings_name"
-        app:titleTextAppearance="@style/ActivitySettingsToolbarAppearance"
+        app:titleTextAppearance="@style/ToolbarAppearance"
+        app:titleTextColor="@color/activity_settings_text_color"
         app:navigationIcon="@drawable/ic_arrow_back"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -24,16 +25,19 @@
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/SettingsElementStyle"
+        android:id="@+id/shareElement"
         android:drawableEnd="@drawable/ic_share"
         android:text="@string/share_text"/>
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/SettingsElementStyle"
+        android:id="@+id/supportElement"
         android:drawableEnd="@drawable/ic_support"
         android:text="@string/support_text"/>
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/SettingsElementStyle"
+        android:id="@+id/userAgreement"
         android:drawableEnd="@drawable/ic_arrow_right"
         android:text="@string/user_agreement_text"/>
 </LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="activity_main_container_color">#1A1B22</color>
+
+    <color name="activity_settings_container_color">#1A1B22</color>
+    <color name="activity_settings_text_color">#FFFFFF</color>
+    <color name="activity_settings_icons_color">#FFFFFF</color>
+
+    <color name="activity_search_container_color">#1A1B22</color>
+    <color name="activity_search_icons_color">#1A1B22</color>
+    <color name="search_field_color">#FFFFFF</color>
+</resources>
