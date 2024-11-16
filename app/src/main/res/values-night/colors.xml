@@ -9,4 +9,7 @@
     <color name="activity_search_container_color">#1A1B22</color>
     <color name="activity_search_icons_color">#1A1B22</color>
     <color name="search_field_color">#FFFFFF</color>
+    
+    <color name="track_name_color">#FFFFFF</color>
+    <color name="track_musician_name_color">#FFFFFF</color>
 </resources>

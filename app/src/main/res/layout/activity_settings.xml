@@ -38,6 +38,6 @@
     <com.google.android.material.textview.MaterialTextView
         style="@style/SettingsElementStyle"
         android:id="@+id/userAgreement"
-        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawableEnd="@drawable/ic_arrow_forward"
         android:text="@string/user_agreement_text"/>
 </LinearLayout>
