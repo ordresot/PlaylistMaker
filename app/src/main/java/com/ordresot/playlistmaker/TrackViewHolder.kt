@@ -21,8 +21,8 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
              .fitCenter()
              .transform(RoundedCorners(2))
              .into(trackImage)
-        trackName.text = model.getTrackName()
-        trackArtist.text = model.getTrackArtist()
         trackTime.text = model.getTrackTime()
+        trackArtist.text = model.getTrackArtist()
+        trackName.text = model.getTrackName()
     }
 }
