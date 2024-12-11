@@ -12,4 +12,5 @@
     <dimen name="error_placeholder_margin">102dp</dimen>
     <dimen name="error_placeholder_padding">24dp</dimen>
     <dimen name="_14sp">14sp</dimen>
+    <dimen name="_54dp">54dp</dimen>
 </resources>

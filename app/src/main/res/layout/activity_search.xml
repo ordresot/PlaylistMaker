@@ -118,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/update_track_list_button"
-            app:cornerRadius="54dp"
+            app:cornerRadius="@dimen/_54dp"
             android:backgroundTint="@color/activity_settings_text_color"
             android:text="Обновить"
             android:textAllCaps="false"
