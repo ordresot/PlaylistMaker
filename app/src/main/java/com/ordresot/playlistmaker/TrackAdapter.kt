@@ -1,14 +1,15 @@
 package com.ordresot.playlistmaker
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter(): RecyclerView.Adapter<TrackViewHolder>() {
+class TrackAdapter(private var trackList: ArrayList<Track>, private val trackOnClickListener: (Track) -> Unit): RecyclerView.Adapter<TrackViewHolder>() {
 
-    private var trackList = ArrayList<Track>()
-    fun setTrackList(trackList: ArrayList<Track>){
-        this.trackList = trackList
+    fun updateData(newTrackList: ArrayList<Track>){
+        trackList = newTrackList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -18,6 +19,9 @@ class TrackAdapter(): RecyclerView.Adapter<TrackViewHolder>() {
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bind(trackList[position])
+        holder.itemView.setOnClickListener{
+            trackOnClickListener(trackList[position])
+        }
     }
 
     override fun getItemCount(): Int = trackList.size

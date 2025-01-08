@@ -7,28 +7,27 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.ordresot.playlistmaker.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    private val buttonSearch: Button by lazy { findViewById(R.id.button_search) }
-    private val buttonLibrary: Button by lazy { findViewById(R.id.button_library) }
-    private val buttonSettings: Button by lazy { findViewById(R.id.button_settings) }
+ class MainActivity : AppCompatActivity() {
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
-        buttonSearch.setOnClickListener{
+        binding.buttonSearch.setOnClickListener{
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
 
-        buttonLibrary.setOnClickListener{
+        binding.buttonLibrary.setOnClickListener{
             val intent = Intent(this, LibraryActivity::class.java)
             startActivity(intent)
         }
 
-        buttonSettings.setOnClickListener{
+        binding.buttonSettings.setOnClickListener{
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
