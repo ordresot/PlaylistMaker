@@ -1,6 +1,5 @@
 package com.ordresot.playlistmaker
 
-import android.view.RoundedCorner
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView

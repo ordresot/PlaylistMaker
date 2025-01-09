@@ -4,13 +4,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.textview.MaterialTextView
 import com.ordresot.playlistmaker.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {

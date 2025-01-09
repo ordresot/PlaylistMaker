@@ -1,7 +1,6 @@
 package com.ordresot.playlistmaker
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

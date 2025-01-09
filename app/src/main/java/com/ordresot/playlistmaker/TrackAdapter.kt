@@ -1,14 +1,13 @@
 package com.ordresot.playlistmaker
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter(private var trackList: ArrayList<Track>, private val trackOnClickListener: (Track) -> Unit): RecyclerView.Adapter<TrackViewHolder>() {
+class TrackAdapter(private var trackList: List<Track>, private val trackOnClickListener: (Track) -> Unit): RecyclerView.Adapter<TrackViewHolder>() {
 
-    fun updateData(newTrackList: ArrayList<Track>){
-        trackList = newTrackList
+    fun updateData(trackList: List<Track>){
+        this.trackList = trackList
         notifyDataSetChanged()
     }
 
