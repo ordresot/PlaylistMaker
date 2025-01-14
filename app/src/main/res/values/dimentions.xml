@@ -8,4 +8,5 @@
     <dimen name="small_horizontal_indent">12dp</dimen>
     <dimen name="bold_vertical_indent">20dp</dimen>
     <dimen name="activity_search_icon_regular_dimen">14dp</dimen>
+    <dimen name="player_description_text_size">13sp</dimen>
 </resources>

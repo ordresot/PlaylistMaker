@@ -17,7 +17,6 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         Glide.with(itemView)
              .load(model.getTrackImage())
              .placeholder(R.drawable.track_image_placeholder)
-             .fitCenter()
              .transform(RoundedCorners(2))
              .into(trackImage)
         trackTime.text = model.getTrackTime()

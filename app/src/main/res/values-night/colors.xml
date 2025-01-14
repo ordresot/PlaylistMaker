@@ -12,4 +12,6 @@
     
     <color name="track_name_color">#FFFFFF</color>
     <color name="track_musician_name_color">#FFFFFF</color>
+
+    <color name="player_description_text_color_values">#FFFFFF</color>
 </resources>

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 
 const val THEME_PREFERENCES = "theme_preferences"
 const val DARK_THEME = "dark_theme"
+const val TRACK_EXTRA = "track_extra"
 
 class App: Application() {
     private val themePreferences: SharedPreferences by lazy { getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE) }
