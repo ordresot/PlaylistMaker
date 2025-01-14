@@ -1,22 +1,17 @@
 package com.ordresot.playlistmaker
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
+import com.ordresot.playlistmaker.databinding.ActivitySearchBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,20 +20,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
 
-    private val queryInput: EditText by lazy { findViewById(R.id.query_input) }
-    private val clearButton: ImageView by lazy { findViewById(R.id.clear_button) }
-    private val toolbar: MaterialToolbar by lazy { findViewById(R.id.activity_search_toolbar) }
-    private val recyclerView: RecyclerView by lazy { findViewById(R.id.searched_track_list) }
-    private val nothingSearchedPlaceholder: LinearLayout by lazy { findViewById(R.id.nothing_searched_placeholder) }
-    private val connectionLostPlaceholder: LinearLayout by lazy { findViewById(R.id.connection_lost_placeholder) }
-    private val updateTrackListButton: Button by lazy { findViewById(R.id.update_track_list_button) }
-
+    private val binding: ActivitySearchBinding by lazy { ActivitySearchBinding.inflate(layoutInflater) }
     private var searchText = SEARCH_TEXT_DEF
     private val itunesBaseUrl = "https://itunes.apple.com"
     private val retrofit = Retrofit.Builder().baseUrl(itunesBaseUrl).addConverterFactory(GsonConverterFactory.create()).build()
     private val iTunesService = retrofit.create(ITunesApiService::class.java)
-    private val trackList = ArrayList<Track>()
-    private var adapter = TrackAdapter()
+    private var trackList = ArrayList<Track>()
+    private val searchListAdapter: TrackAdapter by lazy { TrackAdapter(trackList, ::trackOnClickListener) }
+    private val searchHistory: SharedPreferences by lazy { getSharedPreferences(SEARCH_HISTORY, MODE_PRIVATE) }
+    private val history: History by lazy { History(searchHistory) }
+    private val historyListAdapter: TrackAdapter by lazy { TrackAdapter(history.historyLoad(), ::trackOnClickListener) }
 
     companion object{
         const val SEARCH_TEXT = "SEARCH_TEXT"
@@ -48,50 +39,59 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_search)
+        setContentView(binding.root)
 
-        adapter.setTrackList(trackList)
-        recyclerView.adapter = adapter
+        binding.historyListView.adapter = historyListAdapter
+        binding.searchListView.adapter = searchListAdapter
 
-        toolbar.setNavigationOnClickListener{
+        binding.activitySearchToolbar.setNavigationOnClickListener{
             finish()
         }
 
-        clearButton.setOnClickListener{
-            queryInput.text.clear()
+        binding.clearButton.setOnClickListener{
+            binding.searchListView.visibility = View.GONE
+            binding.queryInput.text.clear()
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(queryInput.windowToken, 0)
-            queryInput.clearFocus()
-            trackList.clear()
-            adapter.notifyDataSetChanged()
-            nothingSearchedPlaceholder.visibility = View.GONE
-            connectionLostPlaceholder.visibility = View.GONE
+            inputMethodManager?.hideSoftInputFromWindow(binding.queryInput.windowToken, 0)
+            binding.queryInput.clearFocus()
+            binding.nothingSearchedPlaceholder.visibility = View.GONE
+            binding.connectionLostPlaceholder.visibility = View.GONE
         }
 
-        queryInput.setOnClickListener{
-            queryInput.requestFocus()
+        binding.queryInput.setOnClickListener{
+            binding.queryInput.requestFocus()
         }
 
-        queryInput.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                clearButton.isVisible = !s.isNullOrEmpty()
-                searchText = s.toString()
+        binding.queryInput.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.clearButton.isVisible = !text.isNullOrEmpty()
+                binding.historyContainer.isVisible = binding.queryInput.hasFocus() && text.isNullOrEmpty() && !history.isEmpty()
+                searchText = text.toString()
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(text: Editable?) {}
         })
 
-        queryInput.setOnEditorActionListener { _, actionId, _ ->
+        binding.queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                getTracks(queryInput.text.toString())
+                getTracks(binding.queryInput.text.toString())
                 true
             }
             false
         }
 
-        updateTrackListButton.setOnClickListener{
-            getTracks(queryInput.text.toString())
+        binding.updateTrackListButton.setOnClickListener{
+            getTracks(binding.queryInput.text.toString())
+        }
+
+        binding.clearHistoryButton.setOnClickListener{
+            history.clear()
+            binding.historyContainer.visibility = View.GONE
+        }
+
+        binding.queryInput.setOnFocusChangeListener{ view, hasFocus ->
+            binding.historyContainer.isVisible = hasFocus && binding.queryInput.text.isEmpty() && !history.isEmpty()
         }
     }
 
@@ -103,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         searchText = savedInstanceState.getString(SEARCH_TEXT, SEARCH_TEXT_DEF)
-        queryInput.setText(searchText)
+        binding.queryInput.setText(searchText)
     }
 
     private fun getTracks(text: String) {
@@ -113,47 +113,54 @@ class SearchActivity : AppCompatActivity() {
                      call: Call<TrackSearchResponse>,
                      response: Response<TrackSearchResponse>
                  ) {
+                     binding.searchListView.visibility = View.VISIBLE
+                     binding.historyContainer.visibility = View.GONE
                      when (response.code()){
                          200 -> {
                              if (response.body()?.results?.isNotEmpty() == true){
                                  trackList.clear()
                                  trackList.addAll(response.body()?.results!!)
-                                 nothingSearchedPlaceholder.visibility = View.GONE
-                                 connectionLostPlaceholder.visibility = View.GONE
-                                 adapter.notifyDataSetChanged()
+                                 binding.nothingSearchedPlaceholder.visibility = View.GONE
+                                 binding.connectionLostPlaceholder.visibility = View.GONE
+                                 searchListAdapter.notifyDataSetChanged()
                              }
                              else {
                                  trackList.clear()
-                                 adapter.notifyDataSetChanged()
-                                 nothingSearchedPlaceholder.visibility = View.VISIBLE
-                                 connectionLostPlaceholder.visibility = View.GONE
+                                 searchListAdapter.notifyDataSetChanged()
+                                 binding.nothingSearchedPlaceholder.visibility = View.VISIBLE
+                                 binding.connectionLostPlaceholder.visibility = View.GONE
                              }
                          }
                          else -> {
                              trackList.clear()
-                             adapter.notifyDataSetChanged()
-                             nothingSearchedPlaceholder.visibility = View.GONE
-                             connectionLostPlaceholder.visibility = View.VISIBLE
+                             searchListAdapter.notifyDataSetChanged()
+                             binding.nothingSearchedPlaceholder.visibility = View.GONE
+                             binding.connectionLostPlaceholder.visibility = View.VISIBLE
                          }
                      }
                  }
 
                  override fun onFailure(call: Call<TrackSearchResponse>, t: Throwable) {
                      trackList.clear()
-                     adapter.notifyDataSetChanged()
-                     nothingSearchedPlaceholder.visibility = View.GONE
-                     connectionLostPlaceholder.visibility = View.VISIBLE
+                     searchListAdapter.notifyDataSetChanged()
+                     binding.nothingSearchedPlaceholder.visibility = View.GONE
+                     binding.connectionLostPlaceholder.visibility = View.VISIBLE
                  }
 
              }
          )
     }
 
+    fun trackOnClickListener(track: Track){
+        history.addTrack(track)
+        historyListAdapter.updateData(history.historyLoad())
+    }
+
     private fun trackListSample(): ArrayList<Track>{
-        return arrayListOf(Track("Smells Like Teen Spirit", "Nirvana", 301000, "https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg"),
-                      Track("Billie Jean", "Michael Jackson", 275000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"),
-                      Track("Stayin' Alive", "Bee Gees", 250000, "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"),
-                      Track("Whole Lotta Love", "Led Zeppelin", 333000, "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"),
-                      Track("Sweet Child O'Mine", "Guns N' Roses", 303000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"),)
+        return arrayListOf(Track(1,"Smells Like Teen Spirit", "Nirvana", 301000, null),
+                      Track(2,"Billie Jean", "Michael Jackson", 275000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"),
+                      Track(3,"Stayin' Alive", "Bee Gees", 250000, "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"),
+                      Track(4,"Whole Lotta Love", "Led Zeppelin", 333000, "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"),
+                      Track(5,"Sweet Child O'Mine", "Guns N' Roses", 303000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"),)
     }
 }

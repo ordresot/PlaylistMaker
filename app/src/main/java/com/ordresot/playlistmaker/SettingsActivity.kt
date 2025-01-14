@@ -1,31 +1,27 @@
 package com.ordresot.playlistmaker
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.textview.MaterialTextView
+import com.ordresot.playlistmaker.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
-    private val toolbar: MaterialToolbar by lazy { findViewById(R.id.activity_settings_toolbar) }
-    private val shareElement: MaterialTextView by lazy { findViewById(R.id.shareElement) }
-    private val supportElement: MaterialTextView by lazy { findViewById(R.id.supportElement) }
+    private val binding: ActivitySettingsBinding by lazy { ActivitySettingsBinding.inflate(layoutInflater) }
+    private val themePreferences: SharedPreferences by lazy { getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_settings)
+        setContentView(binding.root)
 
-        toolbar.setNavigationOnClickListener{
+        binding.activitySettingsToolbar.setNavigationOnClickListener{
             finish()
         }
 
-        shareElement.setOnClickListener {
+        binding.shareElement.setOnClickListener {
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.link_to_android_developer_course))
@@ -34,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        supportElement.setOnClickListener{
+        binding.supportElement.setOnClickListener{
             val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.my_email)))
@@ -44,10 +40,15 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(emailIntent)
         }
 
-        val userAgreement = findViewById<MaterialTextView>(R.id.userAgreement)
-        userAgreement.setOnClickListener{
+        binding.userAgreement.setOnClickListener{
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_to_user_agreement)))
             startActivity(browserIntent)
+        }
+
+        binding.darkThemeSwitch.isChecked = themePreferences.getBoolean(DARK_THEME, false)
+
+        binding.darkThemeSwitch.setOnCheckedChangeListener{ switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
     }
 }

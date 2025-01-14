@@ -18,6 +18,7 @@
         app:navigationIcon="@drawable/ic_arrow_back"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/darkThemeSwitch"
         style="@style/SettingsElementStyle"
         android:text="@string/dark_theme_text"
         app:trackTint="@color/track_selector"
