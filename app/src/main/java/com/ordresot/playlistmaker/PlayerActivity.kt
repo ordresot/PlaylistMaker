@@ -20,31 +20,33 @@ class PlayerActivity : AppCompatActivity() {
 
         val track = Gson().fromJson(intent.getStringExtra(TRACK_EXTRA), Track::class.java)
 
-        binding.activityPlayerToolbar.setNavigationOnClickListener{
-            finish()
+        with(binding){
+            activityPlayerToolbar.setNavigationOnClickListener{
+                finish()
+            }
+
+            Glide.with(applicationContext)
+                .load(track.getCoverArtwork())
+                .placeholder(R.drawable.track_image_large_placeholder)
+                .fitCenter()
+                .transform(RoundedCorners(8))
+                .into(trackImage)
+
+            trackName.text = track.getTrackName()
+
+            trackArtist.text = track.getTrackArtist()
+
+            trackTimeValue.text = track.getTrackTime()
+
+            trackAlbumValue.text = track.getTrackCollectionName()
+            trackAlbum.isVisible = !track.getTrackCollectionName().isNullOrEmpty()
+            trackAlbumValue.isVisible = !track.getTrackCollectionName().isNullOrEmpty()
+
+            trackDateValue.text = track.getTrackReleaseDate().take(4)
+
+            trackGenreValue.text = track.getTrackGenreName()
+
+            trackCountryValue.text = track.getTrackCountry()
         }
-
-        Glide.with(applicationContext)
-            .load(track.getCoverArtwork())
-            .placeholder(R.drawable.track_image_large_placeholder)
-            .fitCenter()
-            .transform(RoundedCorners(8))
-            .into(binding.trackImage)
-
-        binding.trackName.text = track.getTrackName()
-
-        binding.trackArtist.text = track.getTrackArtist()
-
-        binding.trackTimeValue.text = track.getTrackTime()
-
-        binding.trackAlbumValue.text = track.getTrackCollectionName()
-        binding.trackAlbum.isVisible = !track.getTrackCollectionName().isNullOrEmpty()
-        binding.trackAlbumValue.isVisible = !track.getTrackCollectionName().isNullOrEmpty()
-
-        binding.trackDateValue.text = track.getTrackReleaseDate().take(4)
-
-        binding.trackGenreValue.text = track.getTrackGenreName()
-
-        binding.trackCountryValue.text = track.getTrackCountry()
     }
 }
