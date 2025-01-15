@@ -24,4 +24,7 @@
 
     <color name="track_name_color">#000000</color>
     <color name="track_musician_name_color">#AEAFB4</color>
+
+    <color name="player_description_text_color">#AEAFB4</color>
+    <color name="player_description_text_color_values">#1A1B22</color>
 </resources>

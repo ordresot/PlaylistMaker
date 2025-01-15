@@ -8,6 +8,7 @@
     <dimen name="_8dp">8dp</dimen>
     <dimen name="_16dp">16dp</dimen>
     <dimen name="_1dp">1dp</dimen>
+    <dimen name="_12.33">12.33dp</dimen>
     <dimen name="placeholder_text_size">19sp</dimen>
     <dimen name="error_placeholder_margin">102dp</dimen>
     <dimen name="error_placeholder_padding">24dp</dimen>
@@ -17,4 +18,11 @@
     <dimen name="_19sp">19sp</dimen>
     <dimen name="_24dp">24dp</dimen>
     <dimen name="_18dp">18dp</dimen>
+    <dimen name="_26dp">26dp</dimen>
+    <dimen name="_12dp">12dp</dimen>
+    <dimen name="_30dp">30dp</dimen>
+    <dimen name="_4dp">4dp</dimen>
+    <dimen name="_39dp">39dp</dimen>
+    <dimen name="_17dp">17dp</dimen>
+    <dimen name="_36dp">36dp</dimen>
 </resources>

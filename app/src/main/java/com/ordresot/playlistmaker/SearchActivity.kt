@@ -1,6 +1,7 @@
 package com.ordresot.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.google.gson.Gson
 import com.ordresot.playlistmaker.databinding.ActivitySearchBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -154,13 +156,24 @@ class SearchActivity : AppCompatActivity() {
     fun trackOnClickListener(track: Track){
         history.addTrack(track)
         historyListAdapter.updateData(history.historyLoad())
+        startActivity(
+            Intent(
+                this,
+                PlayerActivity::class.java
+            ).apply {
+                putExtra(
+                    TRACK_EXTRA,
+                    Gson().toJson(track)
+                )
+            }
+        )
     }
 
     private fun trackListSample(): ArrayList<Track>{
-        return arrayListOf(Track(1,"Smells Like Teen Spirit", "Nirvana", 301000, null),
-                      Track(2,"Billie Jean", "Michael Jackson", 275000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"),
-                      Track(3,"Stayin' Alive", "Bee Gees", 250000, "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"),
-                      Track(4,"Whole Lotta Love", "Led Zeppelin", 333000, "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"),
-                      Track(5,"Sweet Child O'Mine", "Guns N' Roses", 303000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"),)
+        return arrayListOf(Track(1,"Smells Like Teen Spirit", "Nirvana", null, "XXX", "XXX", "XXX",  301000, null),
+                      Track(2,"Billie Jean", "Michael Jackson", "XXX", "XXX", "XXX", "XXX",275000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"),
+                      Track(3,"Stayin' Alive", "Bee Gees", "XXX", "XXX", "XXX", "XXX",250000, "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"),
+                      Track(4,"Whole Lotta Love", "Led Zeppelin", "XXX", "XXX", "XXX", "XXX",333000, "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"),
+                      Track(5,"Sweet Child O'Mine", "Guns N' Roses", "XXX", "XXX", "XXX", "XXX",303000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"),)
     }
 }
