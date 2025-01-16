@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingStart="@dimen/_13dp"
-    android:paddingEnd="@dimen/_20dp"
     android:background="@android:color/transparent"
     android:layout_marginVertical="@dimen/_8dp">
 
@@ -16,65 +14,67 @@
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/_13dp"/>
 
-    <LinearLayout
-        android:id="@+id/track_info_container"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/track_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@id/track_image"
+        android:fontFamily="@font/ys_display_regular"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="@dimen/regular_text_size"
+        android:textFontWeight="400"
+        android:textColor="@color/track_name_color"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/track_image"
         app:layout_constraintEnd_toStartOf="@id/arrow_forward"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/track_artist"
         android:layout_marginStart="@dimen/_8dp"
-        android:layout_marginEnd="@dimen/_16dp">
+        android:layout_marginEnd="@dimen/_16dp"
+        tools:text="Yesterday (Remastered 2009)"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/track_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ys_display_regular"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textSize="@dimen/regular_text_size"
-            android:textFontWeight="400"
-            android:textColor="@color/track_name_color" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/track_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:fontFamily="@font/ys_display_regular"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="@dimen/small_text_size"
+        android:textFontWeight="400"
+        android:textColor="@color/track_musician_name_color"
+        app:layout_constraintTop_toBottomOf="@id/track_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/track_image"
+        app:layout_constraintEnd_toStartOf="@id/track_time"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginStart="@dimen/_8dp"
+        android:layout_marginTop="@dimen/_1dp"
+        tools:text="The Beatles"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_1dp">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/track_artist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/ys_display_regular"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textSize="@dimen/small_text_size"
-                android:textFontWeight="400"
-                android:textColor="@color/track_musician_name_color"
-                android:drawableEnd="@drawable/ic_ellipse"
-                android:drawablePadding="@dimen/_5dp"
-                tools:text="Название группы Название группы Название группы"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/track_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ys_display_regular"
-                android:maxLines="1"
-                android:textSize="@dimen/small_text_size"
-                android:textFontWeight="400"
-                android:textColor="@color/track_musician_name_color"
-                android:paddingStart="@dimen/_5dp"
-                tools:text="5:50"/>
-        </LinearLayout>
-    </LinearLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/track_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ys_display_regular"
+        android:maxLines="1"
+        android:textSize="@dimen/small_text_size"
+        android:textFontWeight="400"
+        android:textColor="@color/track_musician_name_color"
+        android:drawableStart="@drawable/ic_ellipse"
+        android:drawablePadding="@dimen/_5dp"
+        app:layout_constraintTop_toTopOf="@id/track_artist"
+        app:layout_constraintBottom_toBottomOf="@id/track_artist"
+        app:layout_constraintEnd_toStartOf="@id/arrow_forward"
+        app:layout_constraintStart_toEndOf="@id/track_artist"
+        android:layout_marginEnd="@dimen/_16dp"
+        android:layout_marginStart="@dimen/_5dp"
+        tools:text="5:50"/>
 
     <ImageView
         android:id="@+id/arrow_forward"
@@ -83,5 +83,6 @@
         android:src="@drawable/ic_arrow_forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/_20dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
