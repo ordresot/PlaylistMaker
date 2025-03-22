@@ -18,7 +18,7 @@
     <string name="connection_lost_text">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="search_history_title">Вы искали</string>
     <string name="clear_history_button_text">Очистить историю</string>
-    <string name="default_track_current_time">0:00</string>
+    <string name="default_track_current_time">00:00</string>
     <string name="track_time_text">Длительность</string>
     <string name="track_album_text">Альбом</string>
     <string name="track_date_text">Год</string>

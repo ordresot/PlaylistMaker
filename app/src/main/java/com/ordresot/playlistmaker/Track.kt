@@ -1,6 +1,7 @@
 package com.ordresot.playlistmaker
 
 import com.google.gson.annotations.SerializedName
+import retrofit2.http.Url
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -12,7 +13,9 @@ data class Track (private val trackId: Long,
                   private val primaryGenreName: String,
                   private val country: String,
                   @SerializedName("trackTimeMillis") private val trackTime: Long,
-                  @SerializedName("artworkUrl100") private val artWorkUrl100: String?) {
+                  @SerializedName("artworkUrl100") private val artWorkUrl100: String?,
+                  private val previewUrl: String
+) {
 
     fun getTrackName() = trackName
     fun getTrackTime(): String = SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTime)
@@ -24,4 +27,5 @@ data class Track (private val trackId: Long,
     fun getTrackReleaseDate() = releaseDate
     fun getTrackGenreName() = primaryGenreName
     fun getTrackCountry() = country
+    fun getPreviewUrl() = previewUrl
 }

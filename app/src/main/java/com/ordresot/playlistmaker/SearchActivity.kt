@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -33,9 +35,16 @@ class SearchActivity : AppCompatActivity() {
     private val history: History by lazy { History(searchHistory) }
     private val historyListAdapter: TrackAdapter by lazy { TrackAdapter(history.historyLoad(), ::trackOnClickListener) }
 
+    private val searchRunnable = Runnable { getTracks(binding.queryInput.text.toString()) }
+    private val handler = Handler(Looper.getMainLooper())
+
+    private var isClickAllowed = true
+
     companion object{
         const val SEARCH_TEXT = "SEARCH_TEXT"
         const val SEARCH_TEXT_DEF = ""
+        const val QUERY_DEBOUNCE_DELAY = 2000L
+        const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,29 +76,31 @@ class SearchActivity : AppCompatActivity() {
         binding.queryInput.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.clearButton.isVisible = !text.isNullOrEmpty()
-                binding.historyContainer.isVisible = binding.queryInput.hasFocus() && text.isNullOrEmpty() && !history.isEmpty()
                 searchText = text.toString()
+
+                if (!text.isNullOrEmpty()) {
+                    searchDebounce()
+                }
+                else{
+                    handler.removeCallbacks(searchRunnable)
+                    binding.historyContainer.isVisible = binding.queryInput.hasFocus() && !history.isEmpty()
+                    binding.nothingSearchedPlaceholder.isVisible = false
+                    binding.connectionLostPlaceholder.isVisible = false
+                }
             }
 
             override fun beforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(text: Editable?) {}
         })
 
-        binding.queryInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                getTracks(binding.queryInput.text.toString())
-                true
-            }
-            false
-        }
-
         binding.updateTrackListButton.setOnClickListener{
+            binding.connectionLostPlaceholder.isVisible = false
             getTracks(binding.queryInput.text.toString())
         }
 
         binding.clearHistoryButton.setOnClickListener{
             history.clear()
-            binding.historyContainer.visibility = View.GONE
+            binding.historyContainer.isVisible = false
         }
 
         binding.queryInput.setOnFocusChangeListener{ view, hasFocus ->
@@ -108,7 +119,18 @@ class SearchActivity : AppCompatActivity() {
         binding.queryInput.setText(searchText)
     }
 
+    private fun searchDebounce(){
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, QUERY_DEBOUNCE_DELAY)
+    }
+
     private fun getTracks(text: String) {
+        binding.progressBar.isVisible = true
+        binding.historyContainer.isVisible = false
+        binding.searchListView.isVisible = false
+        binding.nothingSearchedPlaceholder.isVisible = false
+        binding.connectionLostPlaceholder.isVisible = false
+
          iTunesService.search(text).enqueue(
              object : Callback<TrackSearchResponse> {
                  override fun onResponse(
@@ -117,6 +139,7 @@ class SearchActivity : AppCompatActivity() {
                  ) {
                      binding.searchListView.visibility = View.VISIBLE
                      binding.historyContainer.visibility = View.GONE
+                     binding.progressBar.visibility = View.GONE
                      when (response.code()){
                          200 -> {
                              if (response.body()?.results?.isNotEmpty() == true){
@@ -147,33 +170,37 @@ class SearchActivity : AppCompatActivity() {
                      searchListAdapter.notifyDataSetChanged()
                      binding.nothingSearchedPlaceholder.visibility = View.GONE
                      binding.connectionLostPlaceholder.visibility = View.VISIBLE
+                     binding.progressBar.visibility = View.GONE
                  }
 
              }
          )
     }
 
-    fun trackOnClickListener(track: Track){
-        history.addTrack(track)
-        historyListAdapter.updateData(history.historyLoad())
-        startActivity(
-            Intent(
-                this,
-                PlayerActivity::class.java
-            ).apply {
-                putExtra(
-                    TRACK_EXTRA,
-                    Gson().toJson(track)
-                )
-            }
-        )
+    private fun trackOnClickListener(track: Track){
+        if (clickDebounce()){
+            history.addTrack(track)
+            historyListAdapter.updateData(history.historyLoad())
+            startActivity(
+                Intent(
+                    this,
+                    PlayerActivity::class.java
+                ).apply {
+                    putExtra(
+                        TRACK_EXTRA,
+                        Gson().toJson(track)
+                    )
+                }
+            )
+        }
     }
 
-    private fun trackListSample(): ArrayList<Track>{
-        return arrayListOf(Track(1,"Smells Like Teen Spirit", "Nirvana", null, "XXX", "XXX", "XXX",  301000, null),
-                      Track(2,"Billie Jean", "Michael Jackson", "XXX", "XXX", "XXX", "XXX",275000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"),
-                      Track(3,"Stayin' Alive", "Bee Gees", "XXX", "XXX", "XXX", "XXX",250000, "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"),
-                      Track(4,"Whole Lotta Love", "Led Zeppelin", "XXX", "XXX", "XXX", "XXX",333000, "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"),
-                      Track(5,"Sweet Child O'Mine", "Guns N' Roses", "XXX", "XXX", "XXX", "XXX",303000, "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"),)
+    private fun clickDebounce(): Boolean{
+        val current = isClickAllowed
+        if (isClickAllowed){
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
     }
 }
