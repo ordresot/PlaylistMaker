@@ -86,6 +86,7 @@ class SearchActivity : AppCompatActivity() {
                     binding.historyContainer.isVisible = binding.queryInput.hasFocus() && !history.isEmpty()
                     binding.nothingSearchedPlaceholder.isVisible = false
                     binding.connectionLostPlaceholder.isVisible = false
+                    binding.searchListView.isVisible = false
                 }
             }
 
