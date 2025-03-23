@@ -60,6 +60,14 @@
             android:visibility="gone"/>
     </FrameLayout>
 
+    <ProgressBar android:id="@+id/progressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/circularProgressBarColor"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_140dp"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

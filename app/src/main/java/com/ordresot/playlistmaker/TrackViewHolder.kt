@@ -13,7 +13,7 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val trackArtist: MaterialTextView = itemView.findViewById(R.id.track_artist)
     private val trackTime: MaterialTextView = itemView.findViewById(R.id.track_time)
 
-    fun bind(model: Track){
+    fun bind(model: Track) {
         Glide.with(itemView)
              .load(model.getTrackImage())
              .placeholder(R.drawable.track_image_placeholder)
