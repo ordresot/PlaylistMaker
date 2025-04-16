@@ -21,9 +21,9 @@ class SettingsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        prefsInteractor = Creator.providePreferencesInteractor(this)
+        prefsInteractor = Creator.providePreferencesInteractor()
         setThemeModeUC = Creator.provideSetThemeModeUseCase()
-        settingsInteractor = Creator.provideSettingsInteractor(this)
+        settingsInteractor = Creator.provideSettingsInteractor()
 
         binding.activitySettingsToolbar.setNavigationOnClickListener{ finish() }
 

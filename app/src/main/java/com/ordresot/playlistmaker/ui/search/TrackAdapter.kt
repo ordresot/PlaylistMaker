@@ -1,4 +1,4 @@
-package com.ordresot.playlistmaker.presentation.search
+package com.ordresot.playlistmaker.ui.search
 
 import android.view.LayoutInflater
 import android.view.View

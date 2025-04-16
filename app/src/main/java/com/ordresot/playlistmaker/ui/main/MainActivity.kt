@@ -24,7 +24,7 @@ import com.ordresot.playlistmaker.ui.settings.SettingsActivity
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        prefsInteractor = Creator.providePreferencesInteractor(this)
+        prefsInteractor = Creator.providePreferencesInteractor()
         setThemeModeUC = Creator.provideSetThemeModeUseCase()
         firstRunChecker()
 

@@ -9,4 +9,9 @@ import com.ordresot.playlistmaker.domain.api.interactor.PreferencesInteractor
 
 const val TRACK_EXTRA = "track_extra"
 
-class App: Application()
+class App: Application() {
+    override fun onCreate() {
+        super.onCreate()
+        Creator.initContext(this)
+    }
+}

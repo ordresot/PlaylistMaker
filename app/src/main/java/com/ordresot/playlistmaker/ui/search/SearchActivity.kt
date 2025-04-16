@@ -20,7 +20,6 @@ import com.ordresot.playlistmaker.domain.api.interactor.HistoryInteractor
 import com.ordresot.playlistmaker.domain.api.interactor.SearchInteractor
 import com.ordresot.playlistmaker.domain.api.use_case.ClickDebounceUseCase
 import com.ordresot.playlistmaker.domain.models.Track
-import com.ordresot.playlistmaker.presentation.search.TrackAdapter
 import com.ordresot.playlistmaker.ui.TRACK_EXTRA
 import com.ordresot.playlistmaker.ui.player.PlayerActivity
 
@@ -65,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
 
         clickDebounceUC = Creator.provideClickDebounceUseCase()
         searchInteractor = Creator.provideSearchInteractor()
-        historyInteractor = Creator.provideHistoryInteractor(this)
+        historyInteractor = Creator.provideHistoryInteractor()
         getHistory()
 
         binding.historyListView.adapter = historyListAdapter

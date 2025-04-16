@@ -6,16 +6,7 @@ import com.ordresot.playlistmaker.data.dto.TrackSearchRequest
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient: NetworkClient {
-    private val itunesBaseUrl = "https://itunes.apple.com"
-
-    private val iTunesRetrofit = Retrofit.Builder()
-        .baseUrl(itunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val iTunesService = iTunesRetrofit.create(ITunesApiService::class.java)
-
+class RetrofitNetworkClient(private val iTunesService: ITunesApiService): NetworkClient {
     override fun makeRequest(dto: Any): Response {
         if (dto is TrackSearchRequest){
             val response = iTunesService.searchTracks(dto.expression).execute()
