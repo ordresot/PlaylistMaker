@@ -95,7 +95,8 @@
             app:layout_constraintEnd_toStartOf="@id/add_to_favourites_button"
             android:layout_marginTop="@dimen/_36dp"
             android:src="@drawable/ic_button_play"
-            android:backgroundTint="@android:color/transparent"/>
+            android:backgroundTint="@android:color/transparent"
+            />
 
         <ImageView
             android:id="@+id/add_to_favourites_button"

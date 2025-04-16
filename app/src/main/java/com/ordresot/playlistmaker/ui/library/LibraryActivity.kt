@@ -1,4 +1,4 @@
-package com.ordresot.playlistmaker
+package com.ordresot.playlistmaker.ui.library
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
