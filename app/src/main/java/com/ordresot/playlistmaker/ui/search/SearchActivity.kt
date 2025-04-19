@@ -28,11 +28,10 @@ class SearchActivity : AppCompatActivity() {
     private val binding: ActivitySearchBinding by lazy { ActivitySearchBinding.inflate(layoutInflater) }
 
     private var searchText = SEARCH_TEXT_DEF
-    private var searchedTracks = MutableLiveData<ArrayList<Track>>()
     private val searchListAdapter: TrackAdapter by lazy { TrackAdapter(emptyList(), ::trackOnClickListener) }
 
     private var history = ArrayList<Track>()
-    private val historyListAdapter: TrackAdapter by lazy { TrackAdapter(history, ::trackOnClickListener) }
+    private val historyListAdapter: TrackAdapter by lazy { TrackAdapter(emptyList(), ::trackOnClickListener) }
 
     private lateinit var searchInteractor: SearchInteractor
     private lateinit var historyInteractor: HistoryInteractor
@@ -69,19 +68,6 @@ class SearchActivity : AppCompatActivity() {
 
         binding.historyListView.adapter = historyListAdapter
         binding.searchListView.adapter = searchListAdapter
-
-        searchedTracks.observe(this) { value ->
-            if (!value.isNullOrEmpty()){
-                UIUpdater.onSuccessfulRequest()
-            }
-            else if (value != null && value.isEmpty()){
-                UIUpdater.onEmptyRequest()
-            }
-            else{
-                UIUpdater.onConnectionLost()
-            }
-            searchListAdapter.updateData(value)
-        }
 
         binding.activitySearchToolbar.setNavigationOnClickListener{
             finish()
@@ -173,7 +159,18 @@ class SearchActivity : AppCompatActivity() {
             expression,
             object : SearchInteractor.SearchConsumer {
                 override fun consume(foundTracks: List<Track>?) {
-                    searchedTracks.postValue(foundTracks as ArrayList<Track>?)
+                    handler.post {
+                        if (!foundTracks.isNullOrEmpty()){
+                            UIUpdater.onSuccessfulRequest()
+                            searchListAdapter.updateData(foundTracks)
+                        }
+                        else if (foundTracks != null && foundTracks.isEmpty()){
+                            UIUpdater.onEmptyRequest()
+                        }
+                        else{
+                            UIUpdater.onConnectionLost()
+                        }
+                    }
                 }
             }
         )
