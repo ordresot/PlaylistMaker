@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
-import com.ordresot.playlistmaker.Creator
+import com.ordresot.playlistmaker.util.Creator
 import com.ordresot.playlistmaker.R
 import com.ordresot.playlistmaker.databinding.ActivityPlayerBinding
 import com.ordresot.playlistmaker.domain.api.interactor.PlayerInteractor

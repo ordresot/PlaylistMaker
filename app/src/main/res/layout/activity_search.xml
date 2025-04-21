@@ -68,73 +68,46 @@
         android:visibility="gone"
         android:layout_marginTop="@dimen/_140dp"/>
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/error_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/nothing_searched_placeholder"
-        android:orientation="vertical"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/error_placeholder_margin"
         android:paddingHorizontal="@dimen/error_placeholder_padding"
-        android:visibility="gone">
+        android:visibility="gone"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_nothing_searched"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/placeholder_text_size"
-            android:textFontWeight="400"
-            android:textColor="@color/activity_settings_text_color"
-            android:text="@string/nothing_searched_text"
-            android:fontFamily="@font/ys_display_medium"
-            android:textAlignment="center"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/connection_lost_placeholder"
-        android:orientation="vertical"
+        android:textSize="@dimen/placeholder_text_size"
+        android:textFontWeight="400"
+        android:textColor="@color/activity_settings_text_color"
+        android:fontFamily="@font/ys_display_medium"
+        android:textAlignment="center"
         android:gravity="center"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/error_placeholder_margin"
         android:paddingHorizontal="@dimen/error_placeholder_padding"
-        android:visibility="gone">
+        android:visibility="gone"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_connection_lost"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/placeholder_text_size"
-            android:textFontWeight="400"
-            android:textColor="@color/activity_settings_text_color"
-            android:text="@string/connection_lost_text"
-            android:fontFamily="@font/ys_display_medium"
-            android:textAlignment="center"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/update_track_list_button"
-            app:cornerRadius="@dimen/_54dp"
-            android:backgroundTint="@color/activity_settings_text_color"
-            android:text="Обновить"
-            android:textAllCaps="false"
-            android:textColor="@color/activity_settings_container_color"
-            android:textFontWeight="500"
-            android:textSize="@dimen/_14sp"
-            android:fontFamily="@font/ys_display_medium"
-            android:layout_marginTop="@dimen/error_placeholder_padding"/>
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/update_search_button"
+        app:cornerRadius="@dimen/_54dp"
+        android:backgroundTint="@color/activity_settings_text_color"
+        android:text="@string/update_button_text"
+        android:textAllCaps="false"
+        android:textColor="@color/activity_settings_container_color"
+        android:textFontWeight="500"
+        android:textSize="@dimen/_14sp"
+        android:fontFamily="@font/ys_display_medium"
+        android:layout_marginTop="@dimen/error_placeholder_padding"
+        android:layout_gravity="center"
+        android:paddingHorizontal="@dimen/error_placeholder_padding"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_list_view"

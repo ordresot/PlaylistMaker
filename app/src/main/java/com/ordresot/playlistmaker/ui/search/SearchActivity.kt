@@ -12,9 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.ordresot.playlistmaker.Creator
+import com.ordresot.playlistmaker.util.Creator
 import com.ordresot.playlistmaker.databinding.ActivitySearchBinding
 import com.ordresot.playlistmaker.domain.api.interactor.HistoryInteractor
 import com.ordresot.playlistmaker.domain.api.interactor.SearchInteractor
@@ -39,8 +38,9 @@ class SearchActivity : AppCompatActivity() {
 
     private val UIUpdater: UIUpdater by lazy {
         UIUpdater(
-            binding.nothingSearchedPlaceholder,
-            binding.connectionLostPlaceholder,
+            binding.errorMessage,
+            binding.errorImage,
+            binding.updateSearchButton,
             binding.historyContainer,
             binding.searchListView,
             binding.progressBar
@@ -105,7 +105,7 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(text: Editable?) {}
         })
 
-        binding.updateTrackListButton.setOnClickListener{
+        binding.updateSearchButton.setOnClickListener{
             searchTracks(binding.queryInput.text.toString())
         }
 
@@ -158,7 +158,7 @@ class SearchActivity : AppCompatActivity() {
         searchInteractor.searchTracks(
             expression,
             object : SearchInteractor.SearchConsumer {
-                override fun consume(foundTracks: List<Track>?) {
+                override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
                     handler.post {
                         if (!foundTracks.isNullOrEmpty()){
                             UIUpdater.onSuccessfulRequest()
@@ -168,7 +168,9 @@ class SearchActivity : AppCompatActivity() {
                             UIUpdater.onEmptyRequest()
                         }
                         else{
-                            UIUpdater.onConnectionLost()
+                            if (errorMessage != null) {
+                                UIUpdater.onError(errorMessage)
+                            }
                         }
                     }
                 }

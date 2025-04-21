@@ -6,6 +6,6 @@ interface SearchInteractor {
     fun searchTracks(expression: String, consumer: SearchConsumer)
 
     interface SearchConsumer{
-        fun consume(foundTracks: List<Track>?)
+        fun consume(foundTracks: List<Track>?, errorMessage: String?)
     }
 }

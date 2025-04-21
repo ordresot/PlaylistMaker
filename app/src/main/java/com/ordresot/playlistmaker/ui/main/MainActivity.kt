@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.ordresot.playlistmaker.Creator
+import com.ordresot.playlistmaker.util.Creator
 import com.ordresot.playlistmaker.databinding.ActivityMainBinding
 import com.ordresot.playlistmaker.domain.api.interactor.PreferencesInteractor
 import com.ordresot.playlistmaker.domain.api.use_case.SetThemeModeUseCase

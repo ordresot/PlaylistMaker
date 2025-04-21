@@ -24,4 +24,5 @@
     <string name="track_date_text">Год</string>
     <string name="track_genre_text">Жанр</string>
     <string name="track_country_text">Страна</string>
+    <string name="update_button_text">Обновить</string>
 </resources>

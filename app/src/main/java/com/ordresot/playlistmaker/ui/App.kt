@@ -1,11 +1,7 @@
 package com.ordresot.playlistmaker.ui
 
 import android.app.Application
-import android.app.UiModeManager
-import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
-import com.ordresot.playlistmaker.Creator
-import com.ordresot.playlistmaker.domain.api.interactor.PreferencesInteractor
+import com.ordresot.playlistmaker.util.Creator
 
 const val TRACK_EXTRA = "track_extra"
 

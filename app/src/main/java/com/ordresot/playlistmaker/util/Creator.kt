@@ -1,7 +1,8 @@
-package com.ordresot.playlistmaker
+package com.ordresot.playlistmaker.util
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
 import com.ordresot.playlistmaker.data.network.ITunesApiService
 import com.ordresot.playlistmaker.data.network.RetrofitNetworkClient
 import com.ordresot.playlistmaker.data.preference.PREFERENCES
@@ -43,7 +44,8 @@ object Creator {
                     .baseUrl("https://itunes.apple.com")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-                    .create(ITunesApiService::class.java)
+                    .create(ITunesApiService::class.java),
+                applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             )
         )
     }
